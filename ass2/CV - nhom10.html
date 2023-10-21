@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="cssV1.css">
+
+</head>
+
+<body>
+    <div>
+        <h1 class="header">LỚP LẬP TRÌNH ỨNG DỤNG WEB</h1>
+        <P class="header" id="header-faculty">Khoa Mạng máy tính và Truyền thông</P>
+        <ul class="header-ul">
+            <li id="header-li"><a href="cssV1.css">CSS v1</a></li>
+            <li id="header-li"><a href="cssV2.css"> CSS v2</a></li>
+            <li id="header-li"><a href="cssV3.css">CSS v3</a></li>
+            <li id="header-li"><a href="nocss.css">CSS v0 (Not Style)</a></li>
+        </ul>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Lấy tất cả các liên kết trong danh sách
+                var links = document.querySelectorAll(".header-ul a");
+
+                // Lặp qua từng liên kết và thêm sự kiện khi được nhấp vào
+                links.forEach(function (link) {
+                    link.addEventListener("click", function (e) {
+                        // Ngăn chặn mặc định của sự kiện
+                        e.preventDefault();
+
+                        // Loại bỏ lớp "active" khỏi tất cả các liên kết
+                        links.forEach(function (el) {
+                            el.parentElement.classList.remove("active");
+                        });
+
+                        // Thêm lớp "active" cho liên kết hiện tại
+                        this.parentElement.classList.add("active");
+
+                        // Lấy đường dẫn CSS từ thuộc tính href của liên kết
+                        var cssPath = this.getAttribute("href");
+
+                        // Thay đổi tệp CSS bằng cách thay đổi href của thẻ <link>
+                        var cssLink = document.querySelector('link[rel="stylesheet"]');
+                        cssLink.setAttribute("href", cssPath);
+                    });
+                });
+            });
+        </script>
+    </div>
+    <div class="row">
+        <div class="column left">
+            <div>
+                <div class="personalInf">
+                    <img style="float: left;" id="ava" width="150px" height="150px"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2824-06-2023%29_%28cropped%29.jpg/330px-%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2824-06-2023%29_%28cropped%29.jpg"
+                        sizes="100%">
+                    <div style="padding-left: 180px;">
+                        <h3>Nguyễn Mạnh Hùng</h3>
+                        <h4>Lập trình viên Frontend</h4>
+                        <ul style="list-style: none; margin: 0; line-height: 0.75;">
+                            <li>Ngày sinh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16/07/2003</li><br>
+                            <li>Giới tính&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nữ</li><br>
+                            <li>Địa chỉ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gotham City, Somewhere In
+                                this Earth</li><br>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="detail">
+                <h4 class="title">mục tiêu nghề nghiệp</h4>
+                <p style="padding-bottom: 20px; margin-left: 0;"> Tôi là fan của Navi được 20 năm nay rồi.
+                    Còn nhớ hồi bé, với cái tivi cà tàng, bố tôi mở một trận thi đấu của Navi lên,
+                    tôi ngồi xem cùng, chợt thấy cuốn hút bởi những chiến thuật,lối đánh hấp dẫn,
+                    bởi 10 player thi đấu với sự nhiệt huyết, máu lửa, với những pha combat lùi tuyệt đỉnh.
+                    Và thế là tôi đã đem lòng yêu CS:GO yêu luôn cả Navi từ đó.</p>
+                <h4 class="title">học vấn</h4>
+                <p style="font-weight: bold; margin: 0; padding-top: 10px; padding-bottom: 10px;">Đại học Công nghệ
+                    Thông tin - ĐHQG TP HCM</p>
+                <p style="font-weight: bold; margin: 0; padding-top: 10px; padding-bottom: 10px;">An toàn thông tin</p>
+                <p style="margin: 0; padding-top: 10px; padding-bottom: 10px;">GPA: 10</p>
+                <p style="margin: 0; padding-top: 10px; padding-bottom: 10px;">Tốt nghiệp: Thách đấu</p>
+                <p style="font-weight: bold; margin: 0; padding-top: 40px; padding-bottom: 10px;">THPT Chuyên gia công
+                    nghệ đầu hàng VN</p>
+                <p style="margin: 0; padding-top: 10px; padding-bottom: 10px;">Ban Tự Nhiên</p>
+                <p style="margin: 0; padding-top: 10px; padding-bottom: 10px;">Tốt nghiệp: Giỏi</p>
+
+            </div>
+            <table style="width: 100%">
+                <tr>
+                    <th style="width:25%">Vị trí</th>
+                    <th style="width:30%">Đơn vị</th>
+                    <th style="width:45%">Thời gian</th>
+                </tr>
+
+                <tr style="background-color: rgb(230, 230, 230);">
+                    <td>Lập trình viên</td>
+                    <td>FPT Quận 9</td>
+                    <td>Tháng 3/2019 - 5/2021</td>
+                </tr>
+                <td>Leader</td>
+                <td>Công ty ABC</td>
+                <td>Tháng 6/2021 - 10/2025</td>
+                <tr style="background-color: rgb(230, 230, 230);">
+                    <td>Giám đốc</td>
+                    <td>Công ty BX</td>
+                    <td>Tháng 9/2025 - nay</td>
+                </tr>
+                <tr>
+                    <td>Ernst Handel</td>
+                    <td>Roland Mendel</td>
+                    <td>Austria</td>
+                </tr>
+            </table>
+        </div>
+        <div class="column right">
+            <p class="upperP">liên hệ với chúng tôi</p>
+            <ul>
+                <li style="margin-left: 20px;"><b>ĐT: </b><a href="tel:+84345260458">0345160458</a></li>
+                <li style="margin-left: 20px;"><b>Email: </b><a
+                        href="mailto:21520896@gm.uit.edu.vn">21520896@gm.uit.edu.vn</a></li>
+                <li style="margin-left: 20px;"><b>Fb: </b><a href="https://www.facebook.com/notc1nd3r3114/"
+                        target="_blank">Nguyễn Mạnh Hùng</a>
+                </li>
+            </ul>
+            <p>Cúp trong lòng người hâm mộ là chiếc cúp quý giá nhất!</p>
+        </div>
+    </div>
+    <div class="bottomText">
+        <p>This is K'Sante, a champion with 4,700 HP, 329 Armor, and 201 MR, has Unstoppable, a Shield, and goes over
+            walls. Has Airborne, and the cooldown is only 1 second too. It costs 15 Mana. The W CD is even refreshed
+            when he transforms. He has true damage on his passive. Then, when he stacks Armor and MR, he gets Ability
+            Haste too, Ability Haste to his Q, and his spell casting speeds up. Then, he has an AD ratio, so his
+            W…AAAAAAAAAAAAAAA</p>
+    </div>
+    <footer>
+    </footer>
+</body>
+
+</html>

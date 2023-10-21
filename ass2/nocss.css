@@ -1,0 +1,7 @@
+.header-ul a {
+    color: black;
+}
+
+#header-li.active a {
+    color: black;
+}
