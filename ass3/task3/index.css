@@ -33,20 +33,3 @@
     background-color: #333;
 }
 
-/*Bai4*/
-#bai4 {
-    background-color: aqua;
-    color: aqua;
-    display: flex;
-    text-decoration: none;
-}
-
-nav{
-    display: flex;
-}
-
-nav ul li{
-    display: inline-block;
-}
-
-
