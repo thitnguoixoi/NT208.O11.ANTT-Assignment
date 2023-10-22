@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validate Form</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+
+</head>
+<body>
+    <div class="input">
+        <div class="form">
+            <form name="validation-form" id="validation-form" action="valid.html">
+                <fieldset class="fieldset">
+                    <legend>Form đăng kí</legend>
+
+                    <div class="input-row">
+                        <input type="text" name="name" placeholder="Tên đăng nhập" required>
+                    </div>
+
+                    <div class="input-row">
+                        <input type="text" name="phone" placeholder="Số điện thoại" required>
+                    </div>
+
+                    <div class="input-row">
+                        <input type="text" name="email" placeholder="Email" required>
+                    </div>
+
+                    <div class="input-row">                     
+                        <input id="password" type="password" name="password" placeholder="Mật khẩu" required>
+                    </div>
+
+                    <div class="input-row">             
+                        <input type="password" name="repassword" placeholder="Nhập lại mật khẩu" required>
+                    </div>
+                    
+                    <div class="input-row">
+                        <input type="text" name="more-info" placeholder="Thông tin thêm">
+                    </div>
+
+                    <center>
+                        <div class="text-center">
+                            <input type="submit" value="Submit">
+                        </div>
+                    </center>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="./script.js"></script>
+</body>
+</html>
