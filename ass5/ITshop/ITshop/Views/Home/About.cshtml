@@ -1,0 +1,112 @@
+﻿@{
+
+    string filePath = Server.MapPath("~/App_Data/Products.txt");
+    string[] lines = System.IO.File.ReadAllLines(filePath);
+
+    Action<List<string>> SaveToFile = (productLines) =>
+    {
+        System.IO.File.WriteAllLines(filePath, productLines);
+    };
+
+
+    Func<int> GetNextProductId = () =>
+    {
+        if (lines.Length > 0)
+        {
+            string lastLine = lines[lines.Length - 1];
+            string[] lastLineParts = lastLine.Split('|');
+            if (lastLineParts.Length > 0 && int.TryParse(lastLineParts[0], out int lastProductId))
+            {
+                return lastProductId + 1;
+            }
+        }
+        return 1;
+    };
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Management</title>
+</head>
+<body>
+    <h2>Product Management</h2>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Brand</th>
+            <th>Quantity</th>
+            <th>Description</th>
+            <th>Image URL</th>
+            <th>Action</th>
+        </tr>
+        @foreach (var line in lines)
+        {
+            string[] parts = line.Split('|');
+            if (parts.Length == 7)
+            {
+                <tr>
+                    <td>@parts[0]</td>
+                    <td>@parts[1]</td>
+                    <td>@parts[2]</td>
+                    <td>@parts[3]</td>
+                    <td>@parts[4]</td>
+                    <td>@parts[5]</td>
+                    <td>@parts[6]</td>
+                    <td>
+                        <a href="@Url.Action("Edit", new { id = parts[0] })">Edit</a> |
+                        <a href="#" onclick="deleteProduct('@parts[0]')">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+    <h2>Add Product</h2>
+    <form method="post">
+        <label for="productName">Name:</label>
+        <input type="text" id="productName" name="productName" required>
+
+        <label for="productPrice">Price:</label>
+        <input type="number" id="productPrice" name="productPrice" required>
+
+        <label for="productBrand">Brand:</label>
+        <input type="text" id="productBrand" name="productBrand" required>
+
+        <label for="productQuantity">Quantity:</label>
+        <input type="number" id="productQuantity" name="productQuantity" required>
+
+        <label for="productDescription">Description:</label>
+        <textarea id="productDescription" name="productDescription" rows="4" required></textarea>
+
+        <label for="productImageUrl">Image URL:</label>
+        <input type="text" id="productImageUrl" name="productImageUrl" required>
+
+        <button type="submit">Add Product</button>
+    </form>
+
+    @if (IsPost)
+    {
+        // Process the form submission
+        var newProduct = $"{GetNextProductId()}|{Request["productName"]}|{Request["productPrice"]}|{Request["productBrand"]}|{Request["productQuantity"]}|{Request["productDescription"]}|{Request["productImageUrl"]}";
+        var updatedLines = lines.ToList();
+        updatedLines.Add(newProduct);
+        SaveToFile(updatedLines);
+        Response.Redirect(Request.Url.AbsolutePath);
+    }
+
+    <script>
+        function deleteProduct(productId) {
+            if (confirm("Are you sure you want to delete this product?")) {
+                // Implement deletion logic
+                var updatedLines = lines.filter(line => line.startsWith(productId + "|") === false);
+                SaveToFile(updatedLines);
+                location.reload(); // Refresh the page
+            }
+        }
+    </script>
+</body>
+</html>

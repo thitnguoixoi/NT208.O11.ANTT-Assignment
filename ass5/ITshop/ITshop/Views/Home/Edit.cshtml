@@ -1,0 +1,75 @@
+﻿@model string[]
+
+@{
+    string productId = Request["id"];
+
+    // Find the product with the given ID
+    string filePath = Server.MapPath("~/App_Data/Products.txt");
+    string[] lines = System.IO.File.ReadAllLines(filePath);
+    string productToUpdate = lines.FirstOrDefault(line => line.StartsWith(productId + "|"));
+
+    Action<List<string>> SaveToFile = (productLines) =>
+    {
+        System.IO.File.WriteAllLines(filePath, productLines);
+    };
+
+    string productName = "";
+    string productPrice = "";
+    string productBrand = "";
+    string productQuantity = "";
+    string productDescription = "";
+    string productImageUrl = "";
+
+    if (productToUpdate != null)
+    {
+        string[] parts = productToUpdate.Split('|');
+
+        // Ensure that 'parts' is not null and has at least 7 elements before accessing them
+        if (parts != null && parts.Length >= 7)
+        {
+            productName = parts[1];
+            productPrice = parts[2];
+            productBrand = parts[3];
+            productQuantity = parts[4];
+            productDescription = parts[5];
+            productImageUrl = parts[6];
+        }
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Product</title>
+</head>
+<body>
+    <h2>Edit Product</h2>
+
+    @using (Html.BeginForm("Edit", "Home", FormMethod.Post))
+    {
+        <input type="hidden" name="productId" value="@productId">
+
+        <label for="productName">Name:</label>
+        <input type="text" id="productName" name="productName" value="@productName" required>
+
+        <label for="productPrice">Price:</label>
+        <input type="number" id="productPrice" name="productPrice" value="@productPrice" required>
+
+        <label for="productBrand">Brand:</label>
+        <input type="text" id="productBrand" name="productBrand" value="@productBrand" required>
+
+        <label for="productQuantity">Quantity:</label>
+        <input type="number" id="productQuantity" name="productQuantity" value="@productQuantity" required>
+
+        <label for="productDescription">Description:</label>
+        <textarea id="productDescription" name="productDescription" rows="4" required>@productDescription</textarea>
+
+        <label for="productImageUrl">Image URL:</label>
+        <input type="text" id="productImageUrl" name="productImageUrl" value="@productImageUrl" required>
+
+        <button type="submit">Save Changes</button>
+    }
+
+    <a href="@Url.Action("Index", "Home")">Back to Product List</a>
+</body>
+</html>

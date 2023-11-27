@@ -1,0 +1,28 @@
+﻿@model string[]
+
+@{
+    string filePath = Server.MapPath("~/App_Data/Products.txt");
+    string[] line = System.IO.File.ReadAllLines(filePath);
+    string productId = ViewBag.ProductId;
+    //string productToDelete = ViewBag.Lines.FirstOrDefault(line => line.StartsWith(productId + "|"));
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Product</title>
+</head>
+<body>
+    <h2>Delete Product</h2>
+
+    <p>Are you sure you want to delete this product?</p>
+
+    <form method="post">
+        <input type="hidden" name="productId" value="@productId">
+        <button type="submit">Yes, delete</button>
+    </form>
+
+    <a href="@Url.Action("Index", "Home")">Cancel</a>
+</body>
+</html>
