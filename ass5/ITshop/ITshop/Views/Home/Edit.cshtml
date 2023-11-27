@@ -1,41 +1,4 @@
-﻿@model string[]
-
-@{
-    string productId = Request["id"];
-
-    // Find the product with the given ID
-    string filePath = Server.MapPath("~/App_Data/Products.txt");
-    string[] lines = System.IO.File.ReadAllLines(filePath);
-    string productToUpdate = lines.FirstOrDefault(line => line.StartsWith(productId + "|"));
-
-    Action<List<string>> SaveToFile = (productLines) =>
-    {
-        System.IO.File.WriteAllLines(filePath, productLines);
-    };
-
-    string productName = "";
-    string productPrice = "";
-    string productBrand = "";
-    string productQuantity = "";
-    string productDescription = "";
-    string productImageUrl = "";
-
-    if (productToUpdate != null)
-    {
-        string[] parts = productToUpdate.Split('|');
-
-        // Ensure that 'parts' is not null and has at least 7 elements before accessing them
-        if (parts != null && parts.Length >= 7)
-        {
-            productName = parts[1];
-            productPrice = parts[2];
-            productBrand = parts[3];
-            productQuantity = parts[4];
-            productDescription = parts[5];
-            productImageUrl = parts[6];
-        }
-    }
-}
+﻿@model ITshop.Models.Product
 
 <!DOCTYPE html>
 <html>
@@ -47,25 +10,25 @@
 
     @using (Html.BeginForm("Edit", "Home", FormMethod.Post))
     {
-        <input type="hidden" name="productId" value="@productId">
+        <input type="hidden" name="productId" value="@Model.Id">
 
         <label for="productName">Name:</label>
-        <input type="text" id="productName" name="productName" value="@productName" required>
+        <input type="text" id="productName" name="productName" value="@Model.Name" required>
 
         <label for="productPrice">Price:</label>
-        <input type="number" id="productPrice" name="productPrice" value="@productPrice" required>
+        <input type="number" id="productPrice" name="productPrice" value="@Model.Price" required>
 
         <label for="productBrand">Brand:</label>
-        <input type="text" id="productBrand" name="productBrand" value="@productBrand" required>
+        <input type="text" id="productBrand" name="productBrand" value="@Model.Brand" required>
 
         <label for="productQuantity">Quantity:</label>
-        <input type="number" id="productQuantity" name="productQuantity" value="@productQuantity" required>
+        <input type="number" id="productQuantity" name="productQuantity" value="@Model.Quantity" required>
 
         <label for="productDescription">Description:</label>
-        <textarea id="productDescription" name="productDescription" rows="4" required>@productDescription</textarea>
+        <textarea id="productDescription" name="productDescription" rows="4" required>@Model.Description</textarea>
 
         <label for="productImageUrl">Image URL:</label>
-        <input type="text" id="productImageUrl" name="productImageUrl" value="@productImageUrl" required>
+        <input type="text" id="productImageUrl" name="productImageUrl" value="@Model.ImageUrl" required>
 
         <button type="submit">Save Changes</button>
     }

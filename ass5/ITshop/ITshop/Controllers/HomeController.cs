@@ -83,18 +83,20 @@ namespace ITshop.Controllers
             return View(productList);
         }
 
-        public ActionResult Delete(string id)
+        [HttpPost]
+        public ActionResult Delete(int productId)
         {
-            // Read the existing products from the file
             string filePath = Server.MapPath("~/App_Data/Products.txt");
             string[] lines = System.IO.File.ReadAllLines(filePath);
 
-            // Pass the lines variable to the view along with the product ID
-            ViewBag.Lines = lines;
-            ViewBag.ProductId = id;
+            var updatedLines = lines.Where(line => !line.StartsWith(productId + "|")).ToList();
+            System.IO.File.WriteAllLines(filePath, updatedLines);
 
-            return View();
+            return RedirectToAction("About", "Home"); // Hoặc chuyển hướng đến trang khác tùy vào nhu cầu của bạn
         }
+
+
+
 
         public ActionResult Edit(int id)
         {
@@ -114,23 +116,55 @@ namespace ITshop.Controllers
 
             // Parse the product data
             string[] parts = productToUpdate.Split('|');
-            string productName = parts[1];
-            string productPrice = parts[2];
-            string productBrand = parts[3];
-            string productQuantity = parts[4];
-            string productDescription = parts[5];
-            string productImageUrl = parts[6];
 
             // Pass the product data to the view
-            ViewBag.ProductId = id;
-            ViewBag.ProductName = productName;
-            ViewBag.ProductPrice = productPrice;
-            ViewBag.ProductBrand = productBrand;
-            ViewBag.ProductQuantity = productQuantity;
-            ViewBag.ProductDescription = productDescription;
-            ViewBag.ProductImageUrl = productImageUrl;
+            Product product = new Product
+            {
+                Id = id,
+                Name = parts[1],
+                Price = decimal.Parse(parts[2]),
+                Brand = parts[3],
+                Quantity = int.Parse(parts[4]),
+                Description = parts[5],
+                ImageUrl = parts[6]
+            };
 
-            return View();
+            return View(product);
+
+        }
+        [HttpPost] // Xử lý khi submit form
+        public ActionResult Edit(int productId, string productName, decimal productPrice, string productBrand, int productQuantity, string productDescription, string productImageUrl)
+        {
+            // Đọc dữ liệu từ file
+            string filePath = Server.MapPath("~/App_Data/Products.txt");
+            string[] lines = System.IO.File.ReadAllLines(filePath);
+
+            // Tìm sản phẩm cần chỉnh sửa và cập nhật thông tin
+            string productToUpdate = lines.FirstOrDefault(line => line.StartsWith(productId + "|"));
+
+            if (productToUpdate != null)
+            {
+                string updatedProduct = $"{productId}|{productName}|{productPrice}|{productBrand}|{productQuantity}|{productDescription}|{productImageUrl}";
+
+                // Thay đổi dòng thông tin sản phẩm
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    if (lines[i].StartsWith(productId + "|"))
+                    {
+                        lines[i] = updatedProduct;
+                        break;
+                    }
+                }
+
+                // Ghi dữ liệu mới vào file
+                System.IO.File.WriteAllLines(filePath, lines);
+
+                // Chuyển hướng đến trang /Home/About sau khi lưu thành công
+                return RedirectToAction("About", "Home");
+            }
+
+            // Xử lý nếu không tìm thấy sản phẩm để chỉnh sửa
+            return RedirectToAction("About", "Home");
         }
 
     }

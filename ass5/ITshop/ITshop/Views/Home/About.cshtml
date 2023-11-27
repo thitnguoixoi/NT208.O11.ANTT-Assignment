@@ -98,15 +98,29 @@
         Response.Redirect(Request.Url.AbsolutePath);
     }
 
-    <script>
-        function deleteProduct(productId) {
-            if (confirm("Are you sure you want to delete this product?")) {
-                // Implement deletion logic
-                var updatedLines = lines.filter(line => line.startsWith(productId + "|") === false);
-                SaveToFile(updatedLines);
-                location.reload(); // Refresh the page
-            }
+<script>
+    function deleteProduct(productId) {
+        if (confirm("Are you sure you want to delete this product?")) {
+            // Gửi yêu cầu xóa đến server bằng AJAX hoặc form post
+            fetch('@Url.Action("Delete", "Home")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'productId=' + productId
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload(); // Nếu xóa thành công, tải lại trang
+                } else {
+                    alert("Delete operation failed!");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
-    </script>
+    }
+</script>
 </body>
 </html>
